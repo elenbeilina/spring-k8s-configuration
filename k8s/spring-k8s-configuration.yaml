@@ -1,3 +1,4 @@
+# ... Deployment YAML definition
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -23,3 +24,17 @@ spec:
             - name: COLORS
               value: red,blue,green
           imagePullPolicy: Never
+---
+# ... Service YAML definition
+apiVersion: v1
+kind: Service
+metadata:
+  name: spring-k8s-configuration
+spec:
+  type: LoadBalancer
+  selector:
+    app: spring-k8s-configuration
+  ports:
+    - port: 8080
+      targetPort: 8080
+---

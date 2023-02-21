@@ -31,10 +31,31 @@ kind: Service
 metadata:
   name: spring-k8s-configuration
 spec:
-  type: LoadBalancer
+  type: NodePort
   selector:
     app: spring-k8s-configuration
   ports:
     - port: 8080
       targetPort: 8080
+      protocol: TCP
 ---
+# ... Ingress YAML definition
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: spring-k8s-configuration
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    ingress.kubernetes.io/rewrite-target: /$2
+spec:
+  rules:
+    - host: spring-k8s-configuration.info
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: spring-k8s-configuration
+                port:
+                  number: 8080

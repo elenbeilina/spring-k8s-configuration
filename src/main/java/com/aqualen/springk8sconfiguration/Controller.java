@@ -11,7 +11,12 @@ public class Controller {
 
   private final Properties properties;
 
-  @GetMapping("objects")
+  @GetMapping("/")
+  ResponseEntity<String> getStartPage(){
+    return ResponseEntity.ok().body("Application successfully started!");
+  }
+
+  @GetMapping("/objects")
   ResponseEntity<String> getObjects() {
     return ResponseEntity.ok().body(
         String.format("There are objects of type: %s with colors: %s.",

@@ -1,0 +1,26 @@
+# ... Deployment YAML definition
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: spring-k8s-configuration
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: spring-k8s-configuration
+  template:
+    metadata:
+      labels:
+        app: spring-k8s-configuration
+    spec:
+      containers:
+        - name: spring-k8s-configuration
+          image: aqua-len/spring-k8s-configuration
+          ports:
+            - containerPort: 8080
+          env:
+            - name: OBJECT_NAME
+              value: snow board
+            - name: COLORS
+              value: red,blue,green
+          imagePullPolicy: Never

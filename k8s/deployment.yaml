@@ -18,9 +18,26 @@ spec:
           image: aqua-len/spring-k8s-configuration
           ports:
             - containerPort: 8080
+          imagePullPolicy: Never
           env:
             - name: OBJECT_NAME
-              value: snow board
+              valueFrom:
+                secretKeyRef:
+                  name: objects-config
+                  key: object.name
             - name: COLORS
-              value: red,blue,green
-          imagePullPolicy: Never
+              valueFrom:
+                secretKeyRef:
+                  name: objects-config
+                  key: colors
+          volumeMounts:
+            - name: colors-data
+              mountPath: "/deployments/colors-data"
+              readOnly: true
+      volumes:
+        - name: colors-data
+          secret:
+            secretName: objects-config
+            items:
+              - key: colors
+                path: colors

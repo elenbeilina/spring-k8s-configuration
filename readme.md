@@ -1,6 +1,10 @@
 ### Spring k8s configuration.
 This simple spring-boot app with rest api, that returns values from spring properties.
 
+### Configuration
+This branch is configured using secret with object.name injected from the secret as literal \
+and colors mounted as file.
+
 #### Test scenario:
 
 1. Build project:
@@ -19,11 +23,15 @@ This simple spring-boot app with rest api, that returns values from spring prope
    ```
    docker build -t aqua-len/spring-k8s-configuration .
    ```
-5. To create a deployment run the command:
+5. Create k8s secret:
+  ```
+  sh k8s-secret.sh
+  ```
+6. To create a deployment run the command:
    ```
    kubectl apply -f k8s/deployment.yaml
    ```
-6. Access the application, there is no LoadBalancer integrated in minikube, so:
+7. Access the application, there is no LoadBalancer integrated in minikube, so:
    - Forward a localhost port to a port on the Pod. Note: kubectl port-forward does not return. 
       Do not close the terminal:
       ```

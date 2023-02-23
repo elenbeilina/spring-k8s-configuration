@@ -20,24 +20,13 @@ spec:
             - containerPort: 8080
           imagePullPolicy: Never
           env:
-            - name: OBJECT_NAME
-              valueFrom:
-                secretKeyRef:
-                  name: objects-config
-                  key: object.name
-            - name: COLORS
-              valueFrom:
-                secretKeyRef:
-                  name: objects-config
-                  key: colors
+            - name: SPRING_PROFILES_ACTIVE
+              value: log
           volumeMounts:
             - name: colors-data
-              mountPath: "/deployments/colors-data"
+              mountPath: "/deployment/objects-config"
               readOnly: true
       volumes:
         - name: colors-data
           secret:
             secretName: objects-config
-            items:
-              - key: colors
-                path: colors

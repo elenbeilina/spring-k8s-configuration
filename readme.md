@@ -2,7 +2,12 @@
 This simple spring-boot app with rest api, that returns values from spring properties.
 
 ### Configuration
-This branch is configured using secret envFrom. Fields in secret needs to match spring props.
+This branch is configured using configmap. Spring app finds configmap by the app name. \
+There is no need in adding/mounting volume.
+> Important!
+> Reload of properties will not work without spring-boot-starter-actuator.
+> Reload will not work without (proxyBeanMethods = false) for @Configuration and @RefreshScope
+> spring-cloud-starter-kubernetes-fabric8-config not working with Spring 3.0.2
 
 #### Test scenario:
 
@@ -71,4 +76,17 @@ This branch is configured using secret envFrom. Fields in secret needs to match 
     >*Important! Implementation not working without tunnel.(minikube addons enable ingress-dns)* \
     >This solution is not working since Big Sur (MacOS): https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/ \
     >Issue: https://github.com/kubernetes/minikube/issues/12876
+8. Change value in configmap:
+      ```
+       KUBE_EDITOR="nano" kubectl edit configmap spring-k8s-configuration
+      ```
+   See the REFRESH event in the logs of the pod:
+      ```
+       INFO 1 --- [//10.96.0.1/...] .f.c.r.EventBasedConfigMapChangeDetector : Detected change in config maps
+       INFO 1 --- [//10.96.0.1/...] .f.c.r.EventBasedConfigMapChangeDetector : Reloading using strategy: REFRESH
+      ```
+9. See that value changed:
+      ```
+       curl http://localhost:8080/api/objects
+      ```
 ---

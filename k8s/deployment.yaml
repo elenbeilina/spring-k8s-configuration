@@ -22,6 +22,31 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: log
-          envFrom:
-            - secretRef:
-                name: objects-config
+
+#Need for spring app to access configmap
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: namespace-reader
+rules:
+  - apiGroups: ["", "extensions", "apps"]
+    resources: ["configmaps", "pods", "services", "endpoints", "secrets"]
+    verbs: ["get", "list", "watch"]
+
+---
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: namespace-reader-binding
+  namespace: default
+subjects:
+  - kind: ServiceAccount
+    name: default
+    apiGroup: ""
+roleRef:
+  kind: Role
+  name: namespace-reader
+  apiGroup: ""

@@ -1,2 +1,3 @@
 kubectl create secret generic objects-config \
-  --from-file=configuration.properties
+  --from-literal=spring-k8s-configuration.object-name=car \
+  --from-literal=spring-k8s-configuration.colors=white,red,blue

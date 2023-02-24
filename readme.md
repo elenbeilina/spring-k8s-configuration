@@ -2,9 +2,7 @@
 This simple spring-boot app with rest api, that returns values from spring properties.
 
 ### Configuration
-This branch is configured using secret as configuration.properties file. \
-Application props are overridden by secret.
-https://docs.spring.io/spring-boot/docs/2.4.x/reference/htmlsingle/#boot-features-external-config-files-configtree
+This branch is configured using secret envFrom. Fields in secret needs to match spring props.
 
 #### Test scenario:
 

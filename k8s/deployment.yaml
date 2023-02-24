@@ -22,11 +22,6 @@ spec:
           env:
             - name: SPRING_PROFILES_ACTIVE
               value: log
-          volumeMounts:
-            - name: colors-data
-              mountPath: "/deployment/objects-config"
-              readOnly: true
-      volumes:
-        - name: colors-data
-          secret:
-            secretName: objects-config
+          envFrom:
+            - secretRef:
+                name: objects-config

@@ -33,12 +33,14 @@ This simple spring-boot app with rest api, that returns values from spring prope
       Service forwards requests to a set of Pods. ClusterIP type makes Pods accessible only to other Pods,
       LoadBalancer for users outside the cluster.
       ```
+      minikube tunnel
       kubectl expose deployment spring-k8s-configuration --type=LoadBalancer --port=8080
       ```
    - For accessing the application via browser/terminal, command runs as a process,
    creating a network route on the host to the service CIDR of the cluster using the cluster’s IP address
    as a gateway:
      ```
+     minikube tunnel
      minikube service spring-k8s-configuration
      ```
      *OR*
